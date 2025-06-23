@@ -4,25 +4,9 @@ namespace MultiFPS_Shooting.Input.Input
 {
     public class InputManager : MonoBehaviour
     {
-        private static InputManager instance;
-        public static InputManager Instance
-        {
-            get { return instance; }
-        }
-
         private PlayerInputAction playerInputAction;
-        
         private void Awake()
         {
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else
-            {
-                Destroy(instance.gameObject);
-            }
-
             playerInputAction = new PlayerInputAction();
         }
 

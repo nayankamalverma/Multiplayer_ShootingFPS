@@ -1,6 +1,7 @@
 using System;
 using MultiFPS_Shooting.Assets.Scripts.Player.Utilities;
 using MultiFPS_Shooting.Input.Input;
+using Photon.Pun;
 using UnityEngine;
 
 namespace MultiFPS_Shooting.Assets.Scripts.Player
@@ -18,15 +19,24 @@ namespace MultiFPS_Shooting.Assets.Scripts.Player
         private float verticalVelocity;
         private bool isJumping;
 
-        private InputManager inputManager;
+        [SerializeField] private InputManager inputManager;
+        private PhotonView photonView;
 
         private void Start()
         {
-            inputManager = InputManager.Instance;
+            photonView = GetComponent<PhotonView>();
+            if (photonView.IsMine)
+            {
+                cameraTransform.gameObject.SetActive(true);
+            }
         }
+
 
         private void Update()
         {
+            if (!photonView.IsMine)
+                return;
+
             GroundCheck();
             Jump();
             ApplyGravity();
@@ -92,6 +102,11 @@ namespace MultiFPS_Shooting.Assets.Scripts.Player
 
             Gizmos.color = isGrounded ? transparentGreen : transparentRed;
             Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - playerBase.groundedOffset, transform.position.z), playerBase.groundedRadius);
+        }
+
+        private void OnDestroy()
+        {
+            cameraTransform.gameObject.SetActive(false);
         }
     }
 }
