@@ -8,6 +8,7 @@ namespace MultiFPS_Shooting.Assets.Scripts.Player
 {
     public class PlayerView : MonoBehaviour
     {
+        [SerializeField] private InputManager inputManager;
         [SerializeField] private PlayerBaseSO playerBase;
         [SerializeField] private CharacterController charController;
         [SerializeField] private Transform cameraTransform;
@@ -19,7 +20,6 @@ namespace MultiFPS_Shooting.Assets.Scripts.Player
         private float verticalVelocity;
         private bool isJumping;
 
-        [SerializeField] private InputManager inputManager;
         private PhotonView photonView;
 
         private void Start()
