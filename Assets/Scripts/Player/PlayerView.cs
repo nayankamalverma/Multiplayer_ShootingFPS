@@ -3,6 +3,7 @@ using MultiFPS_Shooting.Assets.Scripts.Player.Utilities;
 using MultiFPS_Shooting.Input.Input;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace MultiFPS_Shooting.Assets.Scripts.Player
 {
@@ -29,6 +30,21 @@ namespace MultiFPS_Shooting.Assets.Scripts.Player
             {
                 cameraTransform.gameObject.SetActive(true);
             }
+            else
+            {
+                cameraTransform.gameObject.SetActive(false);
+            }
+        }
+
+        private void OnEnable()
+        {
+            LockCursor();
+        }
+
+        private void LockCursor()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
 
@@ -104,6 +120,16 @@ namespace MultiFPS_Shooting.Assets.Scripts.Player
             Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - playerBase.groundedOffset, transform.position.z), playerBase.groundedRadius);
         }
 
+        private void OnDisable()
+        {
+            UnlockCursor();
+        }
+
+        private void UnlockCursor()
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
         private void OnDestroy()
         {
             cameraTransform.gameObject.SetActive(false);

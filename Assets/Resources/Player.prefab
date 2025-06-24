@@ -10,13 +10,15 @@ GameObject:
   m_Component:
   - component: {fileID: 5678421640912555832}
   - component: {fileID: 4120914372161853819}
+  - component: {fileID: -2982997283214759535}
+  - component: {fileID: 7894725842329531751}
   - component: {fileID: 4163134098527178564}
   - component: {fileID: 2665561478978727102}
   - component: {fileID: 8552934384119389618}
   - component: {fileID: 238553372257519564}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55,6 +57,35 @@ MonoBehaviour:
   playerBase: {fileID: 11400000, guid: 173d20976f3d35b4591bd525daaae37d, type: 2}
   charController: {fileID: 4163134098527178564}
   cameraTransform: {fileID: 3268533963726686162}
+--- !u!114 &-2982997283214759535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371260953418730384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07ef1abf713e4c2419754db9ad0b0af1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initHealth: 100
+--- !u!114 &7894725842329531751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371260953418730384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ada115731ccf8294c8a0ca4516a696e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 20
+  fireRate: 10
+  playerCamera: {fileID: 5090911233138477411}
+  inputManager: {fileID: 5910896834448970531}
 --- !u!143 &4163134098527178564
 CharacterController:
   m_ObjectHideFlags: 0
