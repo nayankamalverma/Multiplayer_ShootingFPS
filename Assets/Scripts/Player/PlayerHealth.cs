@@ -1,26 +1,37 @@
-using System;
 using Photon.Pun;
+using TMPro;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+namespace MultiFPS_Shooting.Scripts.Player
 {
-    [SerializeField] private int initHealth=100;
-
-    private float health;
-
-    private void Start()
+    public class PlayerHealth : MonoBehaviour
     {
-        health = initHealth;
-    }
+        [SerializeField] private int initHealth = 100;
+        [Header("UI")] [SerializeField] private TextMeshProUGUI healthText;
 
-    [PunRPC]
-    public void TakeDamage(float damage)
-    {
-        Debug.Log("Player " + gameObject.name + " damaged " + damage);
-        health -= damage;
-        if (health <= 0)
+        private float health;
+
+        private void Start()
         {
-            Destroy(gameObject);
+            health = initHealth;
+            UpdateText();
+        }
+
+        [PunRPC]
+        public void TakeDamage(float damage)
+        {
+            Debug.Log("Player " + gameObject.name + " damaged " + damage);
+            health -= damage;
+            UpdateText();
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        private void UpdateText()
+        {
+            healthText.text = "Health: " + health;
         }
     }
 }
