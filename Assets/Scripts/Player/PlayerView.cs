@@ -1,11 +1,9 @@
-using System;
-using MultiFPS_Shooting.Assets.Scripts.Player.Utilities;
+using MultiFPS_Shooting.Scripts.Player.Utilities;
 using MultiFPS_Shooting.Input.Input;
 using Photon.Pun;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-namespace MultiFPS_Shooting.Assets.Scripts.Player
+namespace MultiFPS_Shooting.Scripts.Player
 {
     public class PlayerView : MonoBehaviour
     {
@@ -13,6 +11,7 @@ namespace MultiFPS_Shooting.Assets.Scripts.Player
         [SerializeField] private PlayerBaseSO playerBase;
         [SerializeField] private CharacterController charController;
         [SerializeField] private Transform cameraTransform;
+        [SerializeField] private Camera playerCamera;
 
         private float playerSpeed;
         private Vector3 movement;
@@ -28,11 +27,11 @@ namespace MultiFPS_Shooting.Assets.Scripts.Player
             photonView = GetComponent<PhotonView>();
             if (photonView.IsMine)
             {
-                cameraTransform.gameObject.SetActive(true);
+                playerCamera.enabled = true;
             }
             else
             {
-                cameraTransform.gameObject.SetActive(false);
+                playerCamera.enabled = false;
             }
         }
 
@@ -132,7 +131,7 @@ namespace MultiFPS_Shooting.Assets.Scripts.Player
         }
         private void OnDestroy()
         {
-            cameraTransform.gameObject.SetActive(false);
+            playerCamera.enabled = false;
         }
     }
 }

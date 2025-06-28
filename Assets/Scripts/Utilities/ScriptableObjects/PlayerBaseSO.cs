@@ -3,7 +3,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerBaseSO", menuName = "Scriptable Objects/PlayerBaseSO")]
 public class PlayerBaseSO : ScriptableObject
 {
-    
     [Header("Movement")]
     public float walkSpeed = 5f;
     public float sprintSpeed = 10f;

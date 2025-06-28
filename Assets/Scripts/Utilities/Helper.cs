@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MultiFPS_Shooting.Assets.Scripts.Player.Utilities
+namespace MultiFPS_Shooting.Scripts.Player.Utilities
 {
     public class Helper
     {
