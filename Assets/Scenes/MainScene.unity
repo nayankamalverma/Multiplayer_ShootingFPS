@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Buildings_Ramp_35_1x1_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1354662301834006, guid: 56ceb8b51a3ad9648beb54dc0c75f997, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4287461183192828, guid: 56ceb8b51a3ad9648beb54dc0c75f997, type: 3}
       propertyPath: m_LocalScale.x
       value: 3
@@ -208,6 +212,10 @@ PrefabInstance:
     - target: {fileID: 1534924917660268, guid: ec4503891085d7140942097eb5240701, type: 3}
       propertyPath: m_Name
       value: SM_Primitive_Cylander_01P
+      objectReference: {fileID: 0}
+    - target: {fileID: 1534924917660268, guid: ec4503891085d7140942097eb5240701, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4106012832463844, guid: ec4503891085d7140942097eb5240701, type: 3}
       propertyPath: m_LocalScale.x
@@ -316,6 +324,10 @@ PrefabInstance:
     - target: {fileID: 1111734631800900, guid: c4cdd7c71e0cce945b0e9c2ce754d576, type: 3}
       propertyPath: m_Name
       value: SM_Primitive_Wedge_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111734631800900, guid: c4cdd7c71e0cce945b0e9c2ce754d576, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4983768664639556, guid: c4cdd7c71e0cce945b0e9c2ce754d576, type: 3}
       propertyPath: m_LocalScale.x
@@ -633,6 +645,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Synty_Cube_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1529207471264370, guid: feddb6666a6474b4a80e6e7fc805f21f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4803705504180976, guid: feddb6666a6474b4a80e6e7fc805f21f, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.3712
@@ -910,6 +926,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Barrier_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1217059779380092, guid: aa853ab45e8959d4cb3e2c261805e8f3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4843526357135546, guid: aa853ab45e8959d4cb3e2c261805e8f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.24
@@ -975,6 +995,10 @@ PrefabInstance:
     - target: {fileID: 1384085448047292, guid: 960ffeabb9fd4df4eab7655950be7ff2, type: 3}
       propertyPath: m_Name
       value: SM_Primitive_Cube_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 1384085448047292, guid: 960ffeabb9fd4df4eab7655950be7ff2, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4984770198014924, guid: 960ffeabb9fd4df4eab7655950be7ff2, type: 3}
       propertyPath: m_LocalScale.x

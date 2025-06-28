@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using MultiFPS_Shooting.Scripts.Player;
 using Photon.Pun;
 using UnityEngine;
 
@@ -7,6 +10,15 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] private Transform playerSpawn;
     [Space]
     [SerializeField] private GameObject roomCamera;
+    
+    
+    public static RoomManager instance;
+    private bool isFirstTime = true;
+    private void Awake()
+    {
+        instance = this;
+    }
+
     private void Start()
     {
         Debug.Log("Connecting");
@@ -34,12 +46,21 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
         Debug.Log("Joined room");
-        roomCamera.SetActive((false));
-        RespawnPLayer();
+        roomCamera.SetActive(false);
+        SpawnPlayer();
     }
 
-    private void RespawnPLayer()
+    public void Respawn() => StartCoroutine(Spawn());
+    private IEnumerator Spawn()
     {
-        GameObject _player = PhotonNetwork.Instantiate(playerPrefab.name, playerSpawn.position, Quaternion.identity );
+        yield return new WaitForSeconds(2f);
+        SpawnPlayer();
+    }
+
+    private void SpawnPlayer()
+    {
+        isFirstTime = false;
+        GameObject _player = PhotonNetwork.Instantiate(playerPrefab.name, playerSpawn.position, Quaternion.identity);
+        _player.GetComponent<PlayerHealth>().isLocal = true;
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace MultiFPS_Shooting.Scripts.Player
         [Header("UI")] [SerializeField] private TextMeshProUGUI healthText;
 
         private float health;
+        public bool isLocal=false;
 
         private void Start()
         {
@@ -25,6 +27,8 @@ namespace MultiFPS_Shooting.Scripts.Player
             UpdateText();
             if (health <= 0)
             {
+                Debug.Log(isLocal);
+                if(isLocal)RoomManager.instance.Respawn();
                 Destroy(gameObject);
             }
         }
@@ -33,5 +37,6 @@ namespace MultiFPS_Shooting.Scripts.Player
         {
             healthText.text = "Health: " + health;
         }
+        
     }
 }
