@@ -1,8 +1,8 @@
 using System;
 using MultiFPS_Shooting.Input.Input;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace MultiFPS_Shooting.Scripts.Player
@@ -14,7 +14,15 @@ namespace MultiFPS_Shooting.Scripts.Player
         [Header("Ammo")]
         [SerializeField] private int maxAmmo = 120;
         [SerializeField] private int maxMagAmmo = 30;
-        [SerializeField] private int magAmmo = 30;
+
+        [Header("Recoil Settings")]
+        //[Range(0,1)]
+        //[SerializeField] private float recoilPercent = 0.3f;
+        [Range(0,2)]
+        [SerializeField] private float recoverPercent = 0.7f;
+        [Space] 
+        [SerializeField] private float recoilUp = 1f;
+        [SerializeField] private float recoilBack = 1f;
 
         [Header("Animation")]
         [SerializeField] private Animation animation;
@@ -29,18 +37,38 @@ namespace MultiFPS_Shooting.Scripts.Player
         [Header("Game Components")]
         [SerializeField] private Camera playerCamera;
         [SerializeField] private InputManager inputManager;
+        [SerializeField] private PhotonView photonView;
 
         private float nextFire;
         private int ammo;
+        private int magAmmo;
+        //recoil
+        private Vector3 originalPos;
+        private Vector3 recoilVelocity = Vector3.zero;
+        
+        private float recoilLength;
+        private float recoverLength;
+
+        private bool recoiling;
+        private bool recovering;
+
 
         private void Start()
         {
             ammo = maxAmmo;
+            magAmmo = maxMagAmmo;
             UpdateAmmoText();
+            originalPos = transform.localPosition;
+
+            recoilLength = 0;
+            recoverLength = 1 / fireRate * recoverPercent;
         }
 
         private void Update()
         {
+            if(!photonView.IsMine)
+                return;
+
             if (nextFire > 0) nextFire -= Time.deltaTime;
             if (inputManager.IsShootPressed() && nextFire <= 0 && ammo+magAmmo >0 && !animation.isPlaying)
             {
@@ -49,11 +77,17 @@ namespace MultiFPS_Shooting.Scripts.Player
                 Fire();
                 UpdateAmmoText();
             }
-            if(inputManager.IsReloadPressed() || magAmmo == 0) Reload();
+            if(ammo >0 &&  (inputManager.IsReloadPressed() && magAmmo<maxMagAmmo)|| magAmmo == 0) Reload();
+            //recoil
+            if(recoiling) Recoil();
+            if(recovering) Recover();
         }
 
         private void Fire()
         {
+            recoiling = true;
+            recovering = false;
+
             Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
 
             RaycastHit hit;
@@ -62,6 +96,10 @@ namespace MultiFPS_Shooting.Scripts.Player
                 PhotonNetwork.Instantiate(hitVFX.name, hit.point, Quaternion.identity);
                 if (hit.transform.gameObject.GetComponent<PlayerHealth>())
                 {
+                    if (damage >= hit.transform.gameObject.GetComponent<PlayerHealth>().health)
+                    {
+                        PhotonNetwork.LocalPlayer.AddScore(1);
+                    }
                     hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.All, damage);
                 }
             }
@@ -81,12 +119,37 @@ namespace MultiFPS_Shooting.Scripts.Player
                 magAmmo = ammoToReload;
                 ammo = (ammo + remainingMagAmmo) - ammoToReload;
             }
-            UpdateAmmoText();
+            Invoke(nameof(UpdateAmmoText), 1.5f);
         }
 
         private void UpdateAmmoText()
         {
             ammoText.text = "Ammo: " + magAmmo + "/" + ammo;
+        }
+
+        private void Recoil()
+        {
+            Vector3 finalPos = new Vector3(originalPos.x, originalPos.y + recoilUp, originalPos.z - recoilBack);
+            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, finalPos, ref recoilVelocity, recoilLength);
+
+            if (transform.localPosition == finalPos)
+            {
+                recoiling = false;
+                recovering = true;
+            }
+
+        }
+        private void Recover()
+        {
+            Vector3 finalPos = originalPos;
+            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, finalPos, ref recoilVelocity, recoverLength);
+
+            if (transform.localPosition == finalPos)
+            {
+                recoiling = false;
+                recovering = false;
+            }
+
         }
     }
 }

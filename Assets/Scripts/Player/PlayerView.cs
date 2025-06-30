@@ -1,6 +1,7 @@
 using MultiFPS_Shooting.Scripts.Player.Utilities;
 using MultiFPS_Shooting.Input.Input;
 using Photon.Pun;
+using TMPro;
 using UnityEngine;
 
 namespace MultiFPS_Shooting.Scripts.Player
@@ -10,8 +11,8 @@ namespace MultiFPS_Shooting.Scripts.Player
         [SerializeField] private InputManager inputManager;
         [SerializeField] private PlayerBaseSO playerBase;
         [SerializeField] private CharacterController charController;
-        [SerializeField] private Transform cameraTransform;
         [SerializeField] private Camera playerCamera;
+        [SerializeField] private TextMeshPro nameText;
 
         private float playerSpeed;
         private Vector3 movement;
@@ -20,10 +21,13 @@ namespace MultiFPS_Shooting.Scripts.Player
         private float verticalVelocity;
         private bool isJumping;
 
+        private string nickname;
         private PhotonView photonView;
+        private Transform cameraTransform;
 
         private void Start()
         {
+            cameraTransform = playerCamera.transform;
             photonView = GetComponent<PhotonView>();
             if (photonView.IsMine)
             {
@@ -132,6 +136,13 @@ namespace MultiFPS_Shooting.Scripts.Player
         private void OnDestroy()
         {
             playerCamera.enabled = false;
+        }
+
+        [PunRPC]
+        public void SetNickName(string name)
+        {
+            nickname = name;
+            nameText.text = nickname;
         }
     }
 }
