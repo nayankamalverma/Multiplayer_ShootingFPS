@@ -1,8 +1,8 @@
 using System;
 using MultiFPS_Shooting.Input.Input;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace MultiFPS_Shooting.Scripts.Player
@@ -37,6 +37,7 @@ namespace MultiFPS_Shooting.Scripts.Player
         [Header("Game Components")]
         [SerializeField] private Camera playerCamera;
         [SerializeField] private InputManager inputManager;
+        [SerializeField] private PhotonView photonView;
 
         private float nextFire;
         private int ammo;
@@ -44,8 +45,7 @@ namespace MultiFPS_Shooting.Scripts.Player
         //recoil
         private Vector3 originalPos;
         private Vector3 recoilVelocity = Vector3.zero;
-
-
+        
         private float recoilLength;
         private float recoverLength;
 
@@ -66,6 +66,9 @@ namespace MultiFPS_Shooting.Scripts.Player
 
         private void Update()
         {
+            if(!photonView.IsMine)
+                return;
+
             if (nextFire > 0) nextFire -= Time.deltaTime;
             if (inputManager.IsShootPressed() && nextFire <= 0 && ammo+magAmmo >0 && !animation.isPlaying)
             {
@@ -93,6 +96,10 @@ namespace MultiFPS_Shooting.Scripts.Player
                 PhotonNetwork.Instantiate(hitVFX.name, hit.point, Quaternion.identity);
                 if (hit.transform.gameObject.GetComponent<PlayerHealth>())
                 {
+                    if (damage >= hit.transform.gameObject.GetComponent<PlayerHealth>().health)
+                    {
+                        PhotonNetwork.LocalPlayer.AddScore(1);
+                    }
                     hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.All, damage);
                 }
             }
@@ -112,7 +119,7 @@ namespace MultiFPS_Shooting.Scripts.Player
                 magAmmo = ammoToReload;
                 ammo = (ammo + remainingMagAmmo) - ammoToReload;
             }
-            UpdateAmmoText();
+            Invoke(nameof(UpdateAmmoText), 1.5f);
         }
 
         private void UpdateAmmoText()

@@ -2,7 +2,7 @@
 - Project name: MultiFPS_Shooting
 - Unity version: Unity 6000.1.5f1
 - Active game object:
-  - Name: weapon
-  - Tag: Untagged
+  - Name: test
+  - Tag: Player
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

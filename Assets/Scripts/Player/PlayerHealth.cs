@@ -1,4 +1,3 @@
-using System.Collections;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -12,7 +11,7 @@ namespace MultiFPS_Shooting.Scripts.Player
         [SerializeField] private GameObject playerGamePlayUI; 
         [SerializeField] private TextMeshProUGUI healthText;
 
-        private float health;
+        public float health { get; private set; }
         public bool isLocal=false;
 
         private void Start()
