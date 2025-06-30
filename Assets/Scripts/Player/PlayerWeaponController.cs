@@ -14,7 +14,15 @@ namespace MultiFPS_Shooting.Scripts.Player
         [Header("Ammo")]
         [SerializeField] private int maxAmmo = 120;
         [SerializeField] private int maxMagAmmo = 30;
-        [SerializeField] private int magAmmo = 30;
+
+        [Header("Recoil Settings")]
+        //[Range(0,1)]
+        //[SerializeField] private float recoilPercent = 0.3f;
+        [Range(0,2)]
+        [SerializeField] private float recoverPercent = 0.7f;
+        [Space] 
+        [SerializeField] private float recoilUp = 1f;
+        [SerializeField] private float recoilBack = 1f;
 
         [Header("Animation")]
         [SerializeField] private Animation animation;
@@ -32,11 +40,28 @@ namespace MultiFPS_Shooting.Scripts.Player
 
         private float nextFire;
         private int ammo;
+        private int magAmmo;
+        //recoil
+        private Vector3 originalPos;
+        private Vector3 recoilVelocity = Vector3.zero;
+
+
+        private float recoilLength;
+        private float recoverLength;
+
+        private bool recoiling;
+        private bool recovering;
+
 
         private void Start()
         {
             ammo = maxAmmo;
+            magAmmo = maxMagAmmo;
             UpdateAmmoText();
+            originalPos = transform.localPosition;
+
+            recoilLength = 0;
+            recoverLength = 1 / fireRate * recoverPercent;
         }
 
         private void Update()
@@ -49,11 +74,17 @@ namespace MultiFPS_Shooting.Scripts.Player
                 Fire();
                 UpdateAmmoText();
             }
-            if(inputManager.IsReloadPressed() || magAmmo == 0) Reload();
+            if(ammo >0 &&  (inputManager.IsReloadPressed() && magAmmo<maxMagAmmo)|| magAmmo == 0) Reload();
+            //recoil
+            if(recoiling) Recoil();
+            if(recovering) Recover();
         }
 
         private void Fire()
         {
+            recoiling = true;
+            recovering = false;
+
             Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
 
             RaycastHit hit;
@@ -87,6 +118,31 @@ namespace MultiFPS_Shooting.Scripts.Player
         private void UpdateAmmoText()
         {
             ammoText.text = "Ammo: " + magAmmo + "/" + ammo;
+        }
+
+        private void Recoil()
+        {
+            Vector3 finalPos = new Vector3(originalPos.x, originalPos.y + recoilUp, originalPos.z - recoilBack);
+            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, finalPos, ref recoilVelocity, recoilLength);
+
+            if (transform.localPosition == finalPos)
+            {
+                recoiling = false;
+                recovering = true;
+            }
+
+        }
+        private void Recover()
+        {
+            Vector3 finalPos = originalPos;
+            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, finalPos, ref recoilVelocity, recoverLength);
+
+            if (transform.localPosition == finalPos)
+            {
+                recoiling = false;
+                recovering = false;
+            }
+
         }
     }
 }
