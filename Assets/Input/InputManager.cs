@@ -35,6 +35,11 @@ namespace MultiFPS_Shooting.Input.Input
             return playerInputAction.Player.Jump.triggered;
         }
 
+        public bool IsReloadPressed()
+        {
+            return playerInputAction.Player.Reload.triggered;
+        }
+
         public bool IsShiftHeld()
         {
             return playerInputAction.Player.Walk.IsPressed();

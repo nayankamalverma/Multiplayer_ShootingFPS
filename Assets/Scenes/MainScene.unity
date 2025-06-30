@@ -732,6 +732,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: test
       objectReference: {fileID: 0}
+    - target: {fileID: 1371260953418730384, guid: 3d3b0aaff68da604e8880a369abfd9bb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2665561478978727102, guid: 3d3b0aaff68da604e8880a369abfd9bb, type: 3}
       propertyPath: sceneViewId
       value: 3
@@ -787,6 +791,10 @@ PrefabInstance:
     - target: {fileID: 5678421640912555832, guid: 3d3b0aaff68da604e8880a369abfd9bb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6998602179178784268, guid: 3d3b0aaff68da604e8880a369abfd9bb, type: 3}
+      propertyPath: sceneViewId
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7894725842329531751, guid: 3d3b0aaff68da604e8880a369abfd9bb, type: 3}
       propertyPath: m_Enabled
