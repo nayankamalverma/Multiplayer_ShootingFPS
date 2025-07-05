@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using MultiFPS_Shooting.Scripts.Player;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class RoomManager : MonoBehaviourPunCallbacks
@@ -17,6 +18,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     private static string s = "1234567890abcd";
 
     private string nickname = "player_";
+    private string roomToJoin = "test";
     
     public static RoomManager instance;
     private bool isFirstTime = true;
@@ -34,28 +36,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public void JoinRoomButtonPress()
     {
         Debug.Log("Connecting");
-        PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.JoinOrCreateRoom(roomToJoin, new RoomOptions() { MaxPlayers = 4 }, null);
         nameUI.SetActive(false);
         connectingUI.SetActive(true);
     }
-
-    public override void OnConnectedToMaster()
-    {
-        base.OnConnectedToMaster(); 
-        Debug.Log("Connected to server");
-
-        PhotonNetwork.JoinLobby();
-    }
-
-    public override void OnJoinedLobby()
-    {
-        base.OnJoinedLobby();
-
-        PhotonNetwork.JoinOrCreateRoom("Test", null,null);
-        Debug.Log("Created room");
-        
-    }
-
+    
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
@@ -78,5 +63,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
         _player.GetComponent<PlayerHealth>().isLocal = true;
         _player.GetComponent<PhotonView>().RPC("SetNickName",RpcTarget.AllBuffered,nickname);
         PhotonNetwork.LocalPlayer.NickName = nickname;
+    }
+
+    public void SetRoomName(string roomName)
+    {
+        roomToJoin = roomName;
     }
 }
