@@ -93,12 +93,11 @@ namespace MultiFPS_Shooting.Scripts.Player
             Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
 
             RaycastHit hit;
-            if (Physics.Raycast(ray.origin+raySpawnDistanceFromOrigin, ray.direction, out hit, 100f))
+            if (Physics.Raycast(ray.origin, ray.direction, out hit, 100f))
             {
-                Object.Instantiate(hitVFX, hit.point, Quaternion.LookRotation(hit.normal,Vector3.up));
+                PhotonNetwork.Instantiate(hitVFX.name, hit.point, Quaternion.identity);
                 if (hit.transform.gameObject.GetComponent<PlayerHealth>())
                 {
-                    Debug.Log(hit.collider.gameObject.name);
                     if (damage >= hit.transform.gameObject.GetComponent<PlayerHealth>().health)
                     {
                         PhotonNetwork.LocalPlayer.AddScore(1);
